@@ -33,6 +33,25 @@ The script will do the following:
 1. (OPTIONAL)We have a requirement to install anti-virus on all domain computers.  I will include some logic for how I went about this.
 1. Reboot
 
+I included an example of the architecture of the text file I queried for the passwords.  Each password must be in a single line, no matter how long the encrypted string is.  The logic in the get-content portion of the script is how you can target a single line in a text file.
 
+If you wish to encrypt the files in S3 using SSE-C upload the following.. MAKE SURE TO STORE THE VALUE OF $BASE64 in clear.. YOU WILL NEED IT FOR DECRYPTION!  To make it easy, use a prefix for each of the file names..  I used "bootstrap"
+```Powershell
+$Aes = New-Object System.Security.Cryptography.AesManaged
+$Aes.KeySize = 256
+$Aes::GenerateKey
+$Base64key = [System.Convert]::ToBase64String($Aes.Key)
 
+Write-S3Object -Region us-east-1 -File $file -BucketName $bucket -Key $objectkey `-
+ServerSideEncryptionCustomerProvidedKey $Base64key `
+-ServerSideEncryptionCustomerMethod AES256
+```
 
+When creating your instance, assign the IAM role named above
+Just paste this in user data and VOILA!
+<powershell>
+New-Item -value bootstrap -Path c:\ -ItemType directory
+Get-S3Object -BucketName BUCKETNAME -KeyPrefix bootstrap | Copy-S3Object -BucketName BUCKETNAME -localfolder c:\bootstrap -ServerSideEncryptionCustomerProvidedKey valueofbase64variable -ServerSideEncryptionCustomerMethod aes256
+set-location c:\bootstrap
+.\bootstrap_aws_windows.ps1
+</powershell>
