@@ -80,7 +80,7 @@ function AWS_BootStrap {
     ##Secure strings are not supported in this method, hence why the password is set in clear... so
         $Installer = "\\UNCPATH To File\setup.exe"
         $Argument = "-user $secondaccountusername -pwd $SecondAccountpwd"
-        Start-Process $Installer $Argument -Wait
+        Start-Process $Installer $Argument -credential -cred -Wait
     Write-Host "Antivirus  installed" | out-file -FilePath $logfile -Append -NoClobber
 }
 
