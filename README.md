@@ -49,9 +49,11 @@ ServerSideEncryptionCustomerProvidedKey $Base64key `
 
 When creating your instance, assign the IAM role named above
 Just paste this in user data and VOILA!
+```
 <powershell>
 New-Item -value bootstrap -Path c:\ -ItemType directory
 Get-S3Object -BucketName BUCKETNAME -KeyPrefix bootstrap | Copy-S3Object -BucketName BUCKETNAME -localfolder c:\bootstrap -ServerSideEncryptionCustomerProvidedKey valueofbase64variable -ServerSideEncryptionCustomerMethod aes256
 set-location c:\bootstrap
 .\bootstrap_aws_windows.ps1
 </powershell>
+```
