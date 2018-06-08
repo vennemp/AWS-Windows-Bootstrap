@@ -25,6 +25,15 @@ The script will do the following:
 1. (OPTIONAL)We have a requirement to install anti-virus on all domain computers.  I will include some logic for how I went about this.
 1. Reboot
 
+To encrypt the strings with the SSL, I followed: https://www.cgoosen.com/2015/02/using-a-certificate-to-encrypt-credentials-in-automated-powershell-scripts/
+```powershell
+$Cert = Get-ChildItem Cert:\LocalMachine\My | Where-Object {$_.Subject -like "CN=PowerShell Automation*"}
+$Password = 'MyPassword'
+$EncodedPwd = [system.text.encoding]::UTF8.GetBytes($Password)
+$EncryptedBytes = $Cert.PublicKey.Key.Encrypt($EncodedPwd, $true)
+$EncryptedPwd = [System.Convert]::ToBase64String($EncryptedBytes)
+```
+
 I included an example of the architecture of the text file I queried for the passwords.  Each password must be in a single line, no matter how long the encrypted string is.  The logic in the get-content portion of the script is how you can target a single line in a text file.
 
 If you wish to encrypt the files in S3 using SSE-C upload the following.. MAKE SURE TO STORE THE VALUE OF $BASE64 in clear.. YOU WILL NEED IT FOR DECRYPTION!  To make it easy, use a prefix for each of the file names..  I used "bootstrap"
