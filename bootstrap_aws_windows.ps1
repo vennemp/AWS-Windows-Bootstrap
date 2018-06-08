@@ -77,10 +77,13 @@ function AWS_BootStrap {
         
     ####Optional section####
     ### SECOND service account needed to call a setup.exe file that needs a user name and password to install. 
-    ##Secure strings are not supported in this method, hence why the password is set in clear... so
+    ##Secure strings are not supported in this method, hence why the password is set in clear, 
+    ##the first account is used by passing the credential parameter so that must have access to the setup file location but the second account had application level access
+    ##your domain may not have a such a piquancy involved, but I included this in case you needed that..
+    ... 
         $Installer = "\\UNCPATH To File\setup.exe"
         $Argument = "-user $secondaccountusername -pwd $SecondAccountpwd"
-        Start-Process $Installer $Argument -credential -cred -Wait
+        Start-Process $Installer $Argument -credential $cred -Wait
     Write-Host "Antivirus  installed" | out-file -FilePath $logfile -Append -NoClobber
 }
 
