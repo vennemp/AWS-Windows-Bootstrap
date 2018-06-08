@@ -5,14 +5,6 @@ This is my first time contributing to GitHub and the Open Source world.  With th
 
 I wrote this script for a client so that they can automatically add a Windows EC2 instance to an already created domain in AWS.  This is somewhat of a free version to AWS Directory Services where you can import your domain into AWS to be joined at launch.  
 
-The script will do the following:
-1. Rename the computer according to the "Name" tag given at launch.
-1. Update the local DNS settings.
-1. Join the domain and add computer object to appropriate OU in AD.
-1. Create the A record on your DNS server.
-1. (OPTIONAL)We have a requirement to install anti-virus on all domain computers.  I will include some logic for how I went about this.
-1. Reboot
-
 
 In order for this to work, you will need to consider the following:
 1. IAM roles.  Since I designed this script to be stored in S3, you will obviously need an IAM role that has Read access to the bucket.  Also, you will need make sure your IAM role includes the ability to Read EC2 data so it can query the tags.
