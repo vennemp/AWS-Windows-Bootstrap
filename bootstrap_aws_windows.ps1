@@ -71,7 +71,7 @@ function AWS_BootStrap {
 
     ##new shell to DNS Server
     $Cim = New-CimSession -ComputerName $DNSServer -Credential $cred
-    Add-DnsServerResourceRecordA -Name $hostname -IPV4Address $ipv4 -ZoneName $Zone_Name -cimsession $cim
+    Add-DnsServerResourceRecordA -Name $hostname -IPV4Address $ipv4 -ZoneName $Zone_Name -cimsession $cim -CreatePtr
     Write-Host "A Record created for $($hostname) at $($ipv4)" | out-file -FilePath $logfile -Append -NoClobber
         
         
@@ -81,10 +81,10 @@ function AWS_BootStrap {
     ##the first account is used by passing the credential parameter so that must have access to the setup file location but the second account had application level access
     ##your domain may not have a such a piquancy involved, but I included this in case you needed that..
     ... 
-        $Installer = "\\UNCPATH To File\setup.exe"
-        $Argument = "-user $secondaccountusername -pwd $SecondAccountpwd"
-        Start-Process $Installer $Argument -credential $cred -Wait
-    Write-Host "Antivirus  installed" | out-file -FilePath $logfile -Append -NoClobber
+   #     $Installer = "\\UNCPATH To File\setup.exe"
+   #     $Argument = "-user $secondaccountusername -pwd $SecondAccountpwd"
+   #     Start-Process $Installer $Argument -credential $cred -Wait
+   # Write-Host "Antivirus  installed" | out-file -FilePath $logfile -Append -NoClobber
 }
 
 try
