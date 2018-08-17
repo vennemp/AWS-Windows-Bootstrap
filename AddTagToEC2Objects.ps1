@@ -13,7 +13,7 @@ $tag.value = $TagValue
 
 function TagEC2Object {
 
-$objects =  Get-EC2Tag -Region us-east-1 -StoredCredentials usersession | where {$_.resourcetype -eq $ObjectType -and $_.value -like $wildcardfilter -or $_.Value -ccontains $wildcardfilter} 
+$objects =  Get-EC2Tag -Region us-east-1 -StoredCredentials usersession | where {$_.resourcetype -eq $ObjectType -and $_.value -like $wildcardfilter -or $_.Value -contains $wildcardfilter} #contains is if your tag value has spaces as the like operator may not work for filters with spaces
 
 foreach ($object in $objects.ResourceId)
 {
